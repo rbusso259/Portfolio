@@ -7,6 +7,7 @@
 <template id="__bundler_thumbnail"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 140"><rect width="200" height="140" fill="#0f2b21"/><text x="25" y="80" font-family="serif" font-size="40" fill="#e56a2e">RB</text></svg></template>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js"></script>
 <style>
   :root{
     --green-deep:#0f2b21;
@@ -23,6 +24,9 @@
   }
   *{box-sizing:border-box; margin:0; padding:0;}
   html{scroll-behavior:smooth; overflow-x:hidden;}
+  html.lenis, html.lenis body{ height:auto; }
+  .lenis.lenis-smooth{ scroll-behavior:auto !important; }
+  .lenis.lenis-stopped{ overflow:hidden; }
   body{
     background:var(--cream);
     color:var(--ink);
@@ -38,6 +42,17 @@
   }
 
   .reveal{ opacity:0; transform:translateY(28px); transition:opacity .8s ease var(--d,0s), transform .8s ease var(--d,0s); }
+
+
+  /* ---- overlay de transición entre páginas ---- */
+  .page-transition{
+    position:fixed; inset:0; z-index:500; background:var(--green-deep);
+    transform:translateY(100%); pointer-events:none;
+  }
+  .page-transition.animate-in{ animation:ptIn .55s cubic-bezier(.76,0,.24,1) forwards; }
+  .page-transition.animate-out{ animation:ptOut .55s cubic-bezier(.76,0,.24,1) forwards; }
+  @keyframes ptIn{ from{ transform:translateY(100%); } to{ transform:translateY(0%); } }
+  @keyframes ptOut{ from{ transform:translateY(0%); } to{ transform:translateY(-100%); } }
   .reveal.in{ opacity:1; transform:translateY(0); }
 
   /* NAV */
@@ -388,8 +403,6 @@
     line-height:1.6; margin-bottom:10px;
   }
   .cert-item strong{ color:var(--cream); font-weight:600; }
-  .cert-link{ color:var(--orange); text-decoration:none; font-family:'Space Grotesk',sans-serif; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; margin-left:6px; white-space:nowrap; border-bottom:1px solid transparent; transition:border-color .2s; }
-  .cert-link:hover{ border-bottom-color:var(--orange); }
   .certs + .about-note{ margin-top:16px; padding-top:0; border-top:0; }
   @media(max-width:900px){ .about-grid{ grid-template-columns:1fr; gap:40px; } }
 
@@ -503,6 +516,7 @@
 
 <div class="progress" id="progress"></div>
 <div class="cursor-dot" id="cursorDot"></div>
+<div class="page-transition" id="pageTransition"></div>
 
 <input type="checkbox" id="nav-toggle" class="nav-toggle">
 <label for="nav-toggle" class="nav-backdrop" aria-hidden="true"></label>
@@ -582,7 +596,7 @@
 
   <div class="grid" id="grid">
 
-    <a class="card feature reveal" data-cat="ecommerce" style="--d:0.00s" href="https://ebdenvases.com.ar/" target="_blank" rel="noopener">
+    <a class="card feature reveal" data-cat="ecommerce" style="--d:0.00s" href="https://ebdenvases.mitiendanube.com/" target="_blank" rel="noopener">
       <div>
         <div class="idx">01</div>
         <div class="meta-row"><span class="cat">Ecommerce</span><span class="tool">Tienda Nube</span></div>
@@ -682,7 +696,17 @@
       <div class="arrow">↗</div>
     </a>
 
-    <div class="card placeholder banner reveal" data-cat="proximamente" style="--d:0.80s">
+    <a class="card reveal" data-cat="branding" style="--d:0.80s" href="https://rociobusso.com.ar/memoria">
+      <div>
+        <div class="idx">11</div>
+        <div class="meta-row"><span class="cat">Branding</span><span class="tool">Identidad visual</span></div>
+        <div class="logo">Memoria de Vida</div>
+      </div>
+      <p>Identidad visual para una marca de servicios memoriales con códigos QR en lápidas: logo, paleta, tipografía y mockups pensados desde la calidez, el respeto y el legado.</p>
+      <div class="arrow">↗</div>
+    </a>
+
+    <div class="card placeholder banner reveal" data-cat="proximamente" style="--d:0.88s">
       <div>
         <div class="idx">—</div>
         <div class="meta-row"><span class="tool">Próximamente</span></div>
@@ -767,9 +791,8 @@
       </div>
       <div class="certs">
         <div class="certs-label">Certificaciones</div>
-        <div class="cert-item">✓ <span><strong>Community Manager</strong> — curso online, certificado de finalización (2026). <a class="cert-link" href="https://drive.google.com/file/d/1A1kb1xeuV9o27Nnxi47i1pr3mzPo-a7X/view?usp=drive_link" target="_blank" rel="noopener">Ver certificado ↗</a></span></div>
-        <div class="cert-item">✓ <span><strong>Adobe Illustrator</strong> — curso, con certificado de finalización. <a class="cert-link" href="https://drive.google.com/file/d/1dsL2YIT3cTqzn6NF5J2dUFlQkeG8nYHb/view?usp=sharing" target="_blank" rel="noopener">Ver certificado ↗</a></span></div>
-        <div class="cert-item">✓ <span><strong>Mercado Libre Marketplace Manager</strong> — programa ejecutivo, Milbrands Digital Business Institute (2024). <a class="cert-link" href="https://drive.google.com/file/d/1Z2y_WMNX0sToxrCEGg7066mNuHhiJfg7/view?usp=sharing" target="_blank" rel="noopener">Ver certificado ↗</a></span></div>
+        <div class="cert-item">✓ <span><strong>Community Manager</strong> — curso online, certificado de finalización (2026).</span></div>
+        <div class="cert-item">✓ <span><strong>Mercado Libre Marketplace Manager</strong> — programa ejecutivo, Milbrands Digital Business Institute (2024).</span></div>
       </div>
       <div class="about-note">🎓 <span><strong>En camino:</strong> preparándome para estudiar la carrera de Diseño Gráfico.</span></div>
       <div class="about-tools">
@@ -818,6 +841,14 @@
 </div>
 
 <script>
+  /* ---- scroll suave con inercia (Lenis) ---- */
+  let lenis = null;
+  if(typeof Lenis !== 'undefined' && !matchMedia('(prefers-reduced-motion: reduce)').matches){
+    lenis = new Lenis({ duration: 1.1, easing: t => 1 - Math.pow(1 - t, 3), smoothWheel: true });
+    function raf(time){ lenis.raf(time); requestAnimationFrame(raf); }
+    requestAnimationFrame(raf);
+  }
+
   /* ---- filtro de proyectos ---- */
   const tabs = document.querySelectorAll('.tab');
   const cards = document.querySelectorAll('.card');
@@ -893,21 +924,70 @@
   updateProgress();
   updateParallax();
 
-  /* ---- cursor a medida (solo hover en elementos interactivos) ---- */
+  /* ---- cursor a medida: seguimiento suave (lerp) ---- */
   const cursorDot = document.getElementById('cursorDot');
   const isTouch = matchMedia('(hover:none)').matches;
+
   if(!isTouch){
+    let mouseX = window.innerWidth/2, mouseY = window.innerHeight/2;
+    let dotX = mouseX, dotY = mouseY;
+
     window.addEventListener('mousemove', (e)=>{
-      cursorDot.style.left = e.clientX + 'px';
-      cursorDot.style.top = e.clientY + 'px';
+      mouseX = e.clientX; mouseY = e.clientY;
       cursorDot.classList.add('show');
     });
+
+    function tick(){
+      dotX += (mouseX - dotX) * 0.28;
+      dotY += (mouseY - dotY) * 0.28;
+      cursorDot.style.transform = `translate(${dotX}px, ${dotY}px) translate(-50%,-50%)`;
+
+      requestAnimationFrame(tick);
+    }
+    tick();
+
     document.querySelectorAll('.card, .tab, .btn, .contact-link, .svc-row').forEach(el=>{
       el.addEventListener('mouseenter', ()=>cursorDot.classList.add('big'));
       el.addEventListener('mouseleave', ()=>cursorDot.classList.remove('big'));
     });
-    document.addEventListener('mouseleave', ()=>cursorDot.classList.remove('show'));
+
+    document.addEventListener('mouseleave', ()=>{
+      cursorDot.classList.remove('show');
+    });
   }
+
+  /* ---- transiciones animadas entre páginas del portfolio ---- */
+  (function(){
+    const overlay = document.getElementById('pageTransition');
+    const localPages = ['index.html','rincon.html','paralelo.html','trina.html','lafuente.html','horus.html','ebd-redes.html','bravia.html','memoria.html',''];
+    function isLocalNav(a){
+      if(!a || a.target === '_blank') return false;
+      const href = a.getAttribute('href') || '';
+      if(href.startsWith('#') || href.startsWith('mailto:') || href.startsWith('tel:')) return false;
+      let path = href;
+      if(href.startsWith('http')){
+        const u = new URL(href);
+        if(u.hostname.replace('www.','') !== 'rociobusso.com.ar') return false;
+        path = u.pathname.replace(/^\//,'');
+      }
+      const file = path.split('#')[0].split('?')[0];
+      const clean = file.replace(/\.html$/,'');
+      return localPages.map(f=>f.replace(/\.html$/,'')).includes(clean);
+    }
+    document.addEventListener('click', (e)=>{
+      const a = e.target.closest('a');
+      if(!a || !isLocalNav(a)) return;
+      e.preventDefault();
+      const dest = a.getAttribute('href');
+      overlay.classList.add('animate-in');
+      setTimeout(()=>{ window.location.href = dest; }, 480);
+    });
+    window.addEventListener('pageshow', (e)=>{
+      overlay.classList.remove('animate-in');
+      overlay.classList.add('animate-out');
+      setTimeout(()=>{ overlay.classList.remove('animate-out'); }, 600);
+    });
+  })();
 </script>
 
 
