@@ -333,28 +333,45 @@
 
   /* SERVICIOS */
   .services{ padding:100px 6vw 90px; background:var(--cream); }
-  .svc-head{ margin-bottom:70px; max-width:640px; }
+  .svc-head{ margin-bottom:28px; max-width:640px; }
   .svc-head h2{ font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:clamp(34px,4.4vw,54px); letter-spacing:-0.01em; margin-top:6px; }
-  .svc-list{ border-top:1px solid var(--line-dark); }
-  .svc-row{
-    display:grid; grid-template-columns:70px 1fr 1fr 40px; align-items:center; gap:24px;
-    padding:34px 6px; border-bottom:1px solid var(--line-dark);
-    transition:background .3s ease; cursor:default;
+  /* tarjetas colgantes sobre cuerda */
+  .svc-stage{ position:relative; margin:0 -6vw; overflow:hidden; overflow-x:clip; overflow-y:visible; touch-action:pan-y; cursor:grab; user-select:none; -webkit-user-select:none; }
+  .svc-stage.grabbing{ cursor:grabbing; }
+  .svc-rope{ position:absolute; inset:0; width:100%; height:100%; pointer-events:none; overflow:visible; }
+  .svc-rope path{ fill:none; stroke:var(--ink); stroke-linecap:round; }
+  .svc-rope .twist{ stroke:var(--cream); stroke-width:1.4; stroke-dasharray:2 7; opacity:.55; }
+  .svc-card{
+    position:absolute; left:0; top:0; width:var(--cw,280px); min-height:310px;
+    padding:34px 26px 26px; border-radius:14px;
+    display:flex; flex-direction:column; justify-content:space-between; gap:24px;
+    transform-origin:50% -10px; will-change:transform;
+    box-shadow:0 22px 28px -14px rgba(15,43,33,.32);
+    transition:box-shadow .3s ease; visibility:hidden;
+    text-decoration:none; cursor:pointer; -webkit-user-drag:none; -webkit-tap-highlight-color:transparent;
   }
-  .svc-row:hover{ background:var(--cream-2); }
-  .svc-row .num{ font-family:'Space Grotesk',sans-serif; font-size:13px; color:#8a8a78; }
-  .svc-row h3{ font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:clamp(19px,2vw,26px); letter-spacing:-0.01em; }
-  .svc-row p{ font-size:14px; line-height:1.6; color:#4a4a3f; }
-  .svc-row .go{
-    width:36px; height:36px; border-radius:50%; border:1px solid var(--line-dark);
-    display:flex; align-items:center; justify-content:center; font-size:14px; justify-self:end;
-    transition:transform .3s ease, background .3s ease, color .3s ease, border-color .3s ease;
-  }
-  .svc-row:hover .go{ background:var(--orange); border-color:var(--orange); color:#fff; transform:rotate(45deg); }
-  @media(max-width:820px){
-    .svc-row{ grid-template-columns:40px 1fr 32px; }
-    .svc-row p{ grid-column:1 / -1; padding-left:40px; margin-top:4px; }
-  }
+  .svc-stage.grabbing .svc-card{ cursor:grabbing; }
+  .svc-card .go{ transition:transform .3s ease; }
+  .svc-card:hover .go,.svc-card:focus-visible .go{ transform:rotate(45deg); }
+  .svc-card:hover,.svc-card:focus-visible{ box-shadow:0 30px 38px -14px rgba(15,43,33,.38); }
+  .svc-card:focus-visible{ outline:2px solid var(--orange); outline-offset:4px; border-radius:14px; }
+  .svc-card h3{ font-family:'Space Grotesk',sans-serif; font-size:clamp(22px,2.4vw,27px); font-weight:700; line-height:1.12; letter-spacing:-.01em; text-wrap:balance; }
+  .svc-card p{ margin-top:14px; font-size:14px; line-height:1.55; text-wrap:pretty; }
+  .svc-card .go{ align-self:flex-end; width:36px; height:36px; border-radius:50%; border:1px solid currentColor; display:flex; align-items:center; justify-content:center; font-size:15px; }
+  .sc0{ background:var(--cream-2); color:var(--ink); box-shadow:0 22px 28px -14px rgba(15,43,33,.32), inset 0 0 0 1px rgba(23,23,18,.08); }
+  .sc1{ background:var(--sage-light); color:var(--ink); }
+  .sc2{ background:var(--orange); color:var(--ink); }
+  .sc3{ background:var(--green-deep); color:var(--cream); }
+  .sc0 p{ color:#4a4a3f; } .sc1 p{ color:#33332a; } .sc2 p{ color:#241405; } .sc3 p{ color:#d6e2d0; }
+  .svc-pin{ position:absolute; top:-32px; left:50%; width:16px; height:48px; margin-left:-8px; border-radius:6px 6px 3px 3px;
+    background:linear-gradient(90deg,#e3c08c,#c99a5b 60%,#b8884a); box-shadow:inset 0 0 0 1px rgba(80,50,15,.38), 0 3px 5px rgba(0,0,0,.22); }
+  .svc-pin::after{ content:''; position:absolute; left:50%; top:16px; bottom:0; width:2px; margin-left:-1px; background:rgba(80,50,15,.4); }
+  .svc-hint{ margin-top:8px; font-family:'Space Grotesk',sans-serif; font-size:12.5px; letter-spacing:.08em; text-transform:uppercase; color:#4a4a3f; text-wrap:balance; }
+  .svc-hint .touch{ display:none; }
+  @media (hover:none){ .svc-hint .mouse{ display:none; } .svc-hint .touch{ display:inline; } }
+  .svc-stage.static{ height:auto !important; overflow-x:auto; cursor:auto; padding:40px 6vw 20px; display:flex; gap:20px; scroll-snap-type:x proximity; }
+  .svc-stage.static .svc-rope, .svc-stage.static .svc-pin{ display:none; }
+  .svc-stage.static .svc-card{ position:relative; flex:none; visibility:visible; transform:none !important; scroll-snap-align:start; }
 
   /* SOBRE MI */
   .about{
@@ -740,50 +757,17 @@
     <div class="section-label">Cómo puedo ayudarte</div>
     <h2>Servicios</h2>
   </div>
-  <div class="svc-list">
-    <div class="svc-row reveal" style="--d:0.00s">
-      <span class="num">01</span>
-      <h3>Diseño de tienda online</h3>
-      <p>Creación de e-commerce atractivos y optimizados para vender más, con la plataforma que elijas: Tienda Nube, Shopify, WooCommerce y más.</p>
-      <span class="go">↗</span>
-    </div>
-    <div class="svc-row reveal" style="--d:0.06s">
-      <span class="num">02</span>
-      <h3>Landing page</h3>
-      <p>Páginas de aterrizaje de alta conversión, diseñadas para captar leads y clientes, adaptadas a cualquier plataforma o tecnología.</p>
-      <span class="go">↗</span>
-    </div>
-    <div class="svc-row reveal" style="--d:0.12s">
-      <span class="num">03</span>
-      <h3>Rediseño de sitios web</h3>
-      <p>Renovación visual y estructural de tu sitio actual para darle una imagen fresca, profesional y alineada a tu marca.</p>
-      <span class="go">↗</span>
-    </div>
-    <div class="svc-row reveal" style="--d:0.18s">
-      <span class="num">04</span>
-      <h3>Identidad visual y logos</h3>
-      <p>Diseño y rediseño de logos, paletas de color y sistema de marca que transmitan la esencia real de tu negocio.</p>
-      <span class="go">↗</span>
-    </div>
-    <div class="svc-row reveal" style="--d:0.24s">
-      <span class="num">05</span>
-      <h3>Estrategia visual y branding</h3>
-      <p>Desarrollo de identidad visual coherente que alinee todos los canales digitales de tu marca: web, redes, gráfica y más.</p>
-      <span class="go">↗</span>
-    </div>
-    <div class="svc-row reveal" style="--d:0.30s">
-      <span class="num">06</span>
-      <h3>Packaging y etiquetas</h3>
-      <p>Diseño de packaging de productos, cajas y etiquetas con foco en destacar en góndola, transmitir calidad y generar confianza.</p>
-      <span class="go">↗</span>
-    </div>
-    <div class="svc-row reveal" style="--d:0.36s">
-      <span class="num">07</span>
-      <h3>Manejo de redes sociales</h3>
-      <p>Planificación y diseño de contenido para Instagram: posteos, reels y placas informativas publicados con frecuencia, siguiendo la línea visual de la marca.</p>
-      <span class="go">↗</span>
-    </div>
+  <div class="svc-stage reveal" id="svcStage" role="region" aria-label="Servicios">
+    <svg class="svc-rope" aria-hidden="true" focusable="false"><path id="svcRopeMain" stroke-width="3.5"/><path id="svcRopeTwist" class="twist" stroke-width="1.4"/></svg>
+    <a class="svc-card sc0" href="#work" data-cat="ecommerce" draggable="false" aria-label="Diseño de tienda online: ver proyectos de ecommerce"><span class="svc-pin" aria-hidden="true"></span><div><h3>Diseño de tienda online</h3><p>Creación de e-commerce atractivos y optimizados para vender más, con la plataforma que elijas: Tienda Nube, Shopify, WooCommerce y más.</p></div><span class="go" aria-hidden="true">↗</span></a>
+    <a class="svc-card sc1" href="#work" data-cat="web" draggable="false" aria-label="Landing page: ver proyectos de web"><span class="svc-pin" aria-hidden="true"></span><div><h3>Landing page</h3><p>Páginas de aterrizaje de alta conversión, diseñadas para captar leads y clientes, adaptadas a cualquier plataforma o tecnología.</p></div><span class="go" aria-hidden="true">↗</span></a>
+    <a class="svc-card sc2" href="#work" data-cat="web" draggable="false" aria-label="Rediseño de sitios web: ver proyectos de web"><span class="svc-pin" aria-hidden="true"></span><div><h3>Rediseño de sitios web</h3><p>Renovación visual y estructural de tu sitio actual para darle una imagen fresca, profesional y alineada a tu marca.</p></div><span class="go" aria-hidden="true">↗</span></a>
+    <a class="svc-card sc3" href="#work" data-cat="branding" draggable="false" aria-label="Identidad visual y logos: ver proyectos de branding"><span class="svc-pin" aria-hidden="true"></span><div><h3>Identidad visual y logos</h3><p>Diseño y rediseño de logos, paletas de color y sistema de marca que transmitan la esencia real de tu negocio.</p></div><span class="go" aria-hidden="true">↗</span></a>
+    <a class="svc-card sc0" href="#work" data-cat="branding" draggable="false" aria-label="Estrategia visual y branding: ver proyectos de branding"><span class="svc-pin" aria-hidden="true"></span><div><h3>Estrategia visual y branding</h3><p>Desarrollo de identidad visual coherente que alinee todos los canales digitales de tu marca: web, redes, gráfica y más.</p></div><span class="go" aria-hidden="true">↗</span></a>
+    <a class="svc-card sc1" href="#work" data-cat="packaging" draggable="false" aria-label="Packaging y etiquetas: ver proyectos de packaging"><span class="svc-pin" aria-hidden="true"></span><div><h3>Packaging y etiquetas</h3><p>Diseño de packaging de productos, cajas y etiquetas con foco en destacar en góndola, transmitir calidad y generar confianza.</p></div><span class="go" aria-hidden="true">↗</span></a>
+    <a class="svc-card sc2" href="#work" data-cat="redes" draggable="false" aria-label="Manejo de redes sociales: ver proyectos de redes sociales"><span class="svc-pin" aria-hidden="true"></span><div><h3>Manejo de redes sociales</h3><p>Planificación y diseño de contenido para Instagram: posteos, reels y placas informativas publicados con frecuencia, siguiendo la línea visual de la marca.</p></div><span class="go" aria-hidden="true">↗</span></a>
   </div>
+  <p class="svc-hint"><span class="mouse">Arrastrá para mover · hacé clic en una tarjeta para ver esos proyectos</span><span class="touch">Deslizá para mover · tocá una tarjeta para ver esos proyectos</span></p>
 </section>
 
 <section class="about" id="sobre-mi">
@@ -971,7 +955,7 @@
     }
     tick();
 
-    document.querySelectorAll('.card, .tab, .btn, .contact-link, .svc-row').forEach(el=>{
+    document.querySelectorAll('.card, .tab, .btn, .contact-link').forEach(el=>{
       el.addEventListener('mouseenter', ()=>cursorDot.classList.add('big'));
       el.addEventListener('mouseleave', ()=>cursorDot.classList.remove('big'));
     });
@@ -980,6 +964,144 @@
       cursorDot.classList.remove('show');
     });
   }
+
+  /* ---- servicios: tarjetas colgantes sobre una cuerda ---- */
+  (function(){
+    const stage = document.getElementById('svcStage');
+    if(!stage) return;
+    const ropeMain = document.getElementById('svcRopeMain');
+    const ropeTwist = document.getElementById('svcRopeTwist');
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const originals = [...stage.querySelectorAll('.svc-card')];
+    if(reduce){
+      stage.classList.add('static');
+      originals.forEach(el=>{ el.style.visibility='visible'; });
+      return;
+    }
+    originals.forEach(el=>{
+      const c = el.cloneNode(true);
+      c.setAttribute('tabindex','-1'); c.setAttribute('aria-hidden','true'); c.removeAttribute('aria-label');
+      stage.appendChild(c);
+    });
+    const cards = [...stage.querySelectorAll('.svc-card')].map((el,i)=>({ el, i, ang:0, vel:0, vis:false, phase:Math.random()*6.28 }));
+    let W=0, cw=280, gap=28, step=308, L=0, sag=60, y0=84;
+    let offset=0, speed=-46; const base=-46; let target=base;
+    let dragging=false, lastX=0, lastT=0;
+    const K=38, C=3.0;
+    const clamp=(v,a,b)=>v<a?a:(v>b?b:v);
+    const ropeY=(x)=>{ const t=(x+30)/(W+60); return y0 + 4*sag*t*(1-t); };
+
+    function measure(){
+      W = stage.clientWidth;
+      cw = Math.min(280, Math.max(220, W*0.74));
+      gap = W < 600 ? 20 : 28;
+      step = cw + gap; L = cards.length*step;
+      sag = Math.min(84, W*0.06);
+      stage.style.setProperty('--cw', cw+'px');
+      const ch = cards[0].el.offsetHeight || 320;
+      stage.style.height = (y0 + sag + ch + 80) + 'px';
+      const d = `M -30 ${y0} Q ${W/2} ${y0+2*sag} ${W+30} ${y0}`;
+      ropeMain.setAttribute('d', d); ropeTwist.setAttribute('d', d);
+    }
+    function render(dt, t){
+      for(const k of cards){
+        const x = (((k.i*step + offset) % L) + L) % L - step;
+        if(x > W+24 || x < -cw-24){ if(k.vis){ k.el.style.visibility='hidden'; k.vis=false; } continue; }
+        if(!k.vis){ k.el.style.visibility='visible'; k.vis=true; }
+        const y = ropeY(x + cw/2) + 10;
+        const tgt = clamp(speed*0.0007, -0.45, 0.45) + Math.sin(t*0.9 + k.phase)*0.012;
+        k.vel += (-K*(k.ang - tgt) - C*k.vel) * dt;
+        k.ang += k.vel * dt;
+        k.el.style.transform = `translate3d(${x.toFixed(1)}px,${y.toFixed(1)}px,0) rotate(${k.ang.toFixed(4)}rad)`;
+      }
+    }
+    let last=performance.now(), running=true, raf=0;
+    function frame(now){
+      const dt = Math.min(0.05, (now-last)/1000); last = now;
+      if(!dragging){ speed += (target-speed)*Math.min(1, dt*2.2); offset += speed*dt; }
+      render(dt, now/1000);
+      raf = running ? requestAnimationFrame(frame) : 0;
+    }
+    const start=()=>{ if(!raf){ last=performance.now(); running=true; raf=requestAnimationFrame(frame); } };
+    const stop=()=>{ running=false; };
+
+    /* arrastre: recién se activa al mover más de 6px, así un clic simple sigue llegando a la tarjeta */
+    let pending=false, startX=0, justDragged=false;
+    stage.addEventListener('pointerdown', (e)=>{
+      if(e.pointerType==='mouse' && e.button!==0) return;
+      pending=true; startX=e.clientX;
+    });
+    stage.addEventListener('pointermove', (e)=>{
+      if(pending && !dragging && Math.abs(e.clientX-startX) > 6){
+        dragging=true; lastX=e.clientX; lastT=performance.now();
+        stage.classList.add('grabbing');
+        try{ stage.setPointerCapture(e.pointerId); }catch(_){}
+      }
+      if(dragging){
+        const now=performance.now(), dx=e.clientX-lastX;
+        offset += dx;
+        speed = clamp(speed*0.6 + (dx/Math.max(0.008,(now-lastT)/1000))*0.4, -2400, 2400);
+        lastX=e.clientX; lastT=now;
+      }else if(e.pointerType==='mouse'){
+        target = e.target.closest('.svc-card') ? 0 : base;
+      }
+    });
+    const endDrag=()=>{
+      if(dragging){ justDragged=true; setTimeout(()=>{ justDragged=false; }, 80); }
+      pending=false; dragging=false; stage.classList.remove('grabbing');
+    };
+    stage.addEventListener('pointerup', endDrag);
+    stage.addEventListener('pointercancel', endDrag);
+    stage.addEventListener('pointerleave', (e)=>{ if(e.pointerType==='mouse' && !dragging) target=base; });
+    stage.addEventListener('wheel', (e)=>{
+      if(Math.abs(e.deltaX) > Math.abs(e.deltaY)){
+        e.preventDefault(); offset -= e.deltaX; speed = clamp(-e.deltaX*18, -1800, 1800);
+      }
+    }, { passive:false });
+
+    /* clic en una tarjeta: abre la carpeta de proyectos de esa categoría */
+    function goToProjects(cat){
+      const tab = document.querySelector('.tab[data-filter="'+cat+'"]');
+      if(tab && !tab.classList.contains('active')) tab.click();
+      document.querySelectorAll('.card:not(.hide)').forEach(c=>c.classList.add('in'));
+      const work = document.getElementById('work');
+      if(!work) return;
+      if(typeof lenis !== 'undefined' && lenis){ lenis.scrollTo(work, { offset:-70, duration:1.4 }); }
+      else { window.scrollTo({ top: work.getBoundingClientRect().top + window.scrollY - 70, behavior:'smooth' }); }
+    }
+    stage.addEventListener('click', (e)=>{
+      const a = e.target.closest('.svc-card');
+      if(!a) return;
+      e.preventDefault();
+      if(justDragged) return;
+      goToProjects(a.dataset.cat);
+    });
+    stage.addEventListener('dragstart', (e)=>e.preventDefault());
+    stage.addEventListener('focusin', (e)=>{
+      const el = e.target.closest('.svc-card'); if(!el) return;
+      /* solo centrar cuando se navega con teclado; con mouse o dedo el foco no debe mover la tarjeta (se perdía el clic) */
+      let kb = true; try{ kb = el.matches(':focus-visible'); }catch(_){}
+      if(!kb) return;
+      const k = cards.find(c=>c.el===el); if(!k) return;
+      const x = (((k.i*step + offset) % L) + L) % L - step;
+      offset += (W/2 - (x + cw/2)); target = 0;
+    });
+    stage.addEventListener('focusout', ()=>{ target=base; });
+
+    /* cursor a medida sobre las tarjetas */
+    if(typeof cursorDot !== 'undefined'){
+      stage.addEventListener('pointerover', (e)=>{ if(e.target.closest('.svc-card')) cursorDot.classList.add('big'); });
+      stage.addEventListener('pointerout', (e)=>{ if(e.target.closest('.svc-card')) cursorDot.classList.remove('big'); });
+    }
+
+    if('IntersectionObserver' in window){
+      new IntersectionObserver((es)=>{ es[0].isIntersecting ? start() : stop(); }).observe(stage);
+    }
+    document.addEventListener('visibilitychange', ()=>{ document.hidden ? stop() : start(); });
+    let rt; window.addEventListener('resize', ()=>{ clearTimeout(rt); rt=setTimeout(measure, 80); });
+    if(document.fonts && document.fonts.ready){ document.fonts.ready.then(measure); }
+    measure(); render(0,0); start();
+  })();
 
   /* ---- transiciones animadas entre páginas del portfolio ---- */
   (function(){
