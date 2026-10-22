@@ -1038,7 +1038,7 @@
     const ropeY=(x)=>{ const t=(x+30)/(W+60); return y0 + 4*sag*t*(1-t); };
 
     let cardH = 320;
-    if(window.ResizeObserver){ new ResizeObserver(es=>{ const b=es[0].borderBoxSize; const hh = b && b[0] ? b[0].blockSize : es[0].contentRect.height; if(hh && Math.abs(hh-cardH)>1){ cardH = hh; stage.style.height = (y0 + sag + cardH + 80) + 'px'; } }).observe(cards[0].el); }
+    if(window.ResizeObserver){ new ResizeObserver(es=>{ const b=es[0].borderBoxSize; const hh = b && b[0] ? b[0].blockSize : es[0].contentRect.height; if(hh && Math.abs(hh-cardH)>1){ cardH = hh; requestAnimationFrame(()=>{ stage.style.height = (y0 + sag + cardH + 80) + 'px'; }); } }).observe(cards[0].el); }
     function measure(){
       W = stage.clientWidth;
       cw = Math.min(280, Math.max(220, W*0.74));
